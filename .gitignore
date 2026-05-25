@@ -1,0 +1,17 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Database
+*.db
+
+# Extracted output (images/captions from PDFs)
+static/output/
+
+# macOS
+.DS_Store
+
+# Claude preview config (local only)
+.claude/

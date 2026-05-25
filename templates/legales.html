@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avisos Legales - La casa de las campanas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="dark-mode flex flex-col min-h-screen">
+
+    <nav id="main-navbar" class="fixed top-0 left-0 w-full p-4 flex items-center justify-between z-50 transition-colors duration-300 shadow-md">
+        <div class="logo">
+            <a href="{{ url_for('index') }}" class="text-xl lg:text-2xl font-bold text-[#805539] hover:text-[#B9987C] transition-colors duration-300">La casa de las campanas</a>
+        </div>
+        <a href="{{ url_for('index') }}" class="text-gray-300 hover:text-white transition-colors duration-300">
+            <i class="fas fa-arrow-left mr-2"></i> Volver al inicio
+        </a>
+    </nav>
+
+    <main class="flex-grow pt-24 px-4 lg:px-8 max-w-4xl mx-auto w-full">
+        <h1 class="text-4xl font-bold mb-8 text-[#805539]">Avisos Legales</h1>
+
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4">Términos y Condiciones</h2>
+            <p class="text-[#5B5049] leading-relaxed mb-4">
+                Al acceder y utilizar este sitio web, usted acepta estar sujeto a los siguientes términos y condiciones de uso. Si no está de acuerdo con alguno de estos términos, le rogamos que no utilice este sitio.
+            </p>
+            <p class="text-[#5B5049] leading-relaxed">
+                La información proporcionada en este sitio es solo para fines informativos generales. Nos reservamos el derecho de modificar estos términos en cualquier momento sin previo aviso.
+            </p>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4">Política de Privacidad</h2>
+            <p class="text-[#5B5049] leading-relaxed mb-4">
+                La casa de las campanas se compromete a proteger su privacidad. La información personal que nos proporcione a través de este sitio será utilizada únicamente para responder a sus consultas y brindarle el servicio solicitado.
+            </p>
+            <p class="text-[#5B5049] leading-relaxed">
+                No compartiremos su información personal con terceros sin su consentimiento expreso, excepto cuando sea requerido por ley.
+            </p>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4">Propiedad Intelectual</h2>
+            <p class="text-[#5B5049] leading-relaxed">
+                Todo el contenido de este sitio web, incluyendo textos, imágenes, logotipos y diseños, es propiedad de La casa de las campanas y está protegido por las leyes de propiedad intelectual aplicables. Queda prohibida su reproducción sin autorización expresa.
+            </p>
+        </section>
+    </main>
+
+    <footer class="py-6 text-center text-[#5B5049] text-sm border-t border-gray-700 mt-8">
+        <p>&copy; 2025 La casa de las campanas. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

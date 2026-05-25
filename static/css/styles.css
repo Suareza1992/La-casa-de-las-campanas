@@ -1,0 +1,1121 @@
+:root {
+  --color-primary: #805539; /* Main accent color, muted blue-green */
+  --color-secondary: #B9987C; /* Lighter, complementary accent */
+  --color-tertiary: #5B5049; /* Darker, earthy tone for contrast/hover */
+
+  /* Text Colors */
+  --color-text-dark: #3C2C1E; /* Very dark for main text in light mode */
+  --color-text-light: #DDDDD8; /* Light for main text in dark mode */
+  --color-text-muted: #5B5049; /* Muted text for descriptions */
+
+  /* Background Colors */
+  --color-bg-dark: #3C2C1E; /* Dark background */
+  --color-bg-light: #DDDDD8; /* Light background */
+  --color-bg-card-dark: #5B5049; /* Card/element background in dark mode */
+  --color-bg-card-light: #FFFFFF; /* Card/element background in light mode */
+
+  /* Button Colors */
+  --color-btn-primary-bg: #805539;
+  --color-btn-primary-text: #FFFFFF;
+  --color-btn-primary-hover: #5B5049;
+
+  /* Shadow/Border Colors */
+  --color-shadow: rgba(0, 0, 0, 0.2);
+  --color-border-light: #B9987C; /* Light border for light mode */
+  --color-border-dark: #5B5049; /* Darker border for dark mode */
+
+  /* Specific element colors */
+  --color-heart: #EF4444; /* Red for heart/likes */
+  --color-cart: #22C55E; /* Green for cart */
+  --color-user: #3B82F6; /* Blue for user */
+}
+
+/* Base body styles, applies dark mode by default */
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: var(--color-bg-dark); /* Default dark mode background */
+  color: var(--color-text-light); /* Default dark mode text */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth theme transition */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure body takes full viewport height */
+}
+
+/* Light Mode specific styles */
+body.light-mode {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+}
+
+body.light-mode #main-navbar {
+  background-color: var(--color-bg-card-light);
+  color: var(--color-text-dark);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+body.light-mode #main-navbar a {
+  color: var(--color-text-dark);
+}
+
+body.light-mode #main-navbar a:hover {
+  color: var(--color-primary);
+}
+
+body.light-mode #main-navbar .text-2xl { /* Target all relevant icons */
+  color: var(--color-text-dark); /* Dark icons in light mode */
+}
+
+body.light-mode #main-navbar .text-2xl:hover {
+  color: var(--color-primary); /* Primary hover color */
+}
+
+body.light-mode #desktop-search-input {
+  background-color: var(--color-bg-light); /* Lighter search input */
+  color: var(--color-text-dark);
+  border-color: var(--color-border-light);
+}
+
+body.light-mode #desktop-search-button {
+  color: var(--color-text-muted);
+}
+
+body.light-mode .group-hover\:block > a { /* Language dropdown items */
+  color: var(--color-text-dark);
+}
+
+/* --- Mode Toggle Switch Styling (New) --- */
+
+.mode-toggle-section {
+  /* Keep existing flex and padding if from Tailwind, just ensure centering */
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  margin-top: auto; /* To push it to the bottom of the sidebar */
+}
+
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 80px; /* Overall width of the toggle */
+  height: 40px; /* Overall height of the toggle */
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+}
+
+/* Hidden checkbox (sr-only from Tailwind) */
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The toggle track */
+.toggle-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-bg-card-dark); /* Default dark background for track */
+  border-radius: 40px; /* Half of height for rounded shape */
+  transition: background-color 0.4s, box-shadow 0.4s;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  overflow: hidden; /* Hide overflowing background effects */
+}
+
+/* Track background: Night (Default) */
+.toggle-track::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, var(--color-bg-dark) 0%, var(--color-bg-card-dark) 100%); /* Dark night sky gradient */
+  transition: opacity 0.4s ease-in-out;
+  opacity: 1; /* Visible by default (night) */
+}
+
+/* Track background: Day */
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #2196F3 0%, #64B5F6 100%); /* Light blue sky gradient */
+  transition: opacity 0.4s ease-in-out;
+  opacity: 0; /* Hidden by default (day) */
+}
+
+/* Light mode specific track background (Day) */
+body.light-mode .toggle-track {
+  background-color: var(--color-bg-light);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode .toggle-track::before { /* Night background hides */
+  opacity: 0;
+}
+
+body.light-mode .toggle-track::after { /* Day background shows */
+  opacity: 1;
+}
+
+/* The toggle thumb (the circle - sun/moon) */
+.toggle-thumb {
+  position: absolute;
+  content: '';
+  height: 32px; /* Slightly smaller than track height */
+  width: 32px; /* Make it a circle */
+  left: 4px; /* Starting position on the left */
+  bottom: 4px; /* Vertically centered in the track (40 - 32) / 2 = 4 */
+  background-color: #FFFFFF; /* Default: Gray for moon Dark Mode */
+  border-radius: 50%;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+/* Thumb icon (Sun) */
+.toggle-thumb::before {
+  font-family: "Font Awesome 5 Free"; /* Ensure Font Awesome is loaded */
+  font-weight: 900; /* For solid icons */
+  content: "\f185"; /* Sun icon */
+  position: absolute;
+  color: #FDD835; /* White icon on sun background */
+  font-size: 1.3rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.4s ease-in-out;
+  opacity: 0; /* Visible by default (sun) */
+}
+
+/* Thumb icon (Moon) */
+.toggle-thumb::after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f186"; /* Moon icon */
+  position: absolute;
+  color: var(--color-text-dark); /* Darker text color for moon icon, contrast with white thumb */
+  font-size: 1.3rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.4s ease-in-out;
+  opacity: 1; /* Hidden by default (moon) */
+}
+
+/* When checkbox is checked (Light Mode) */
+.theme-switch input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(40px); /* Move thumb to the right (80px track - 32px thumb - 4px right padding = 44px, adjust for visual center) */
+}
+
+.theme-switch input:checked + .toggle-track .toggle-thumb::before { /* Sun icon shows in Light Mode */
+  opacity: 1;
+}
+
+.theme-switch input:checked + .toggle-track .toggle-thumb::after { /* Moon icon hides in Light Mode */
+  opacity: 0;
+}
+
+/* Adjust thumb position when body has light-mode class for theme consistency */
+body.light-mode .toggle-thumb {
+  transform: translateX(40px); /* Ensure it's in light mode position */
+}
+
+body.light-mode .toggle-thumb::before {
+  opacity: 1; /* Sun visible in Light Mode */
+}
+
+body.light-mode .toggle-thumb::after {
+  opacity: 0; /* Moon hidden in Light Mode */
+}
+
+body.light-mode .hero-product-display {
+  background-color: rgba(255, 255, 255, 0.1); /* Lighter translucent background for hero */
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .filter-bar button {
+  background-color: var(--color-bg-card-light);
+  color: var(--color-text-dark);
+  border: 1px solid var(--color-border-light);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+body.light-mode .filter-bar button.active,
+body.light-mode .filter-bar button:hover {
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+}
+
+body.light-mode .product-card {
+  background-color: var(--color-bg-card-light);
+  color: var(--color-text-dark);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+body.light-mode .product-card h2,
+body.light-mode .product-card p.price {
+  color: var(--color-text-dark);
+}
+
+/* --- Load More Button Specific Style --- */
+body.light-mode #load-more-btn {
+  color: var(--color-text-dark); /* Black text in Light Mode */
+}
+
+body.light-mode .product-card button.add-to-cart-btn {
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+}
+
+body.light-mode .product-card button.add-to-cart-btn:hover {
+  background-color: var(--color-tertiary);
+}
+
+body.light-mode #projects .bg-white { /* For project cards and logos */
+  background-color: var(--color-bg-card-light);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+body.light-mode #projects h3,
+body.light-mode #projects ul,
+body.light-mode #projects ul li {
+  color: var(--color-text-dark);
+}
+
+body.light-mode #testimonials {
+  background-color: var(--color-secondary); /* Lighter background for testimonials */
+}
+
+body.light-mode #testimonials .testimonial-card {
+  background-color: var(--color-bg-card-light);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+body.light-mode #testimonials .testimonial-card i.fa-quote-left {
+  color: var(--color-primary);
+}
+
+body.light-mode #testimonials .testimonial-card p {
+  color: var(--color-text-dark);
+}
+
+body.light-mode #about-us h2,
+body.light-mode #about-us strong {
+  color: var(--color-text-dark);
+}
+
+body.light-mode #about-us p,
+body.light-mode #about-us ul li {
+  color: var(--color-text-muted); /* Ensure muted text color is correct */
+}
+
+body.light-mode #contact h2,
+body.light-mode #contact h3 {
+  color: var(--color-text-dark);
+}
+
+body.light-mode #contact .bg-white {
+  background-color: var(--color-bg-card-light);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+body.light-mode #contact label,
+body.light-mode #contact p.flex {
+  color: var(--color-text-dark);
+}
+
+body.light-mode #contact input,
+body.light-mode #contact textarea {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+  border-color: var(--color-border-light);
+}
+
+body.light-mode #contact input:focus,
+body.light-mode #contact textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+body.light-mode #contact .social-icons a {
+  color: var(--color-text-dark);
+}
+
+body.light-mode .modal-content {
+  background-color: var(--color-bg-card-light);
+  color: var(--color-text-dark);
+}
+
+body.light-mode .modal-content h2,
+body.light-mode .modal-content label {
+  color: var(--color-text-dark);
+}
+
+body.light-mode .modal-content input,
+body.light-mode .modal-content textarea {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+  border-color: var(--color-border-light);
+}
+
+/* --- Top Navbar Styling --- */
+#main-navbar {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  z-index: 50; /* Ensure it stays on top */
+}
+
+#main-navbar.sticky {
+  background-color: var(--color-bg-dark); /* Stays dark in dark mode */
+  box-shadow: 0 4px 6px var(--color-shadow);
+}
+
+body.light-mode #main-navbar.sticky {
+  background-color: var(--color-bg-card-light); /* Becomes light in light mode */
+}
+
+/* Logo color */
+.logo a {
+  color: var(--color-primary);
+}
+
+.logo a:hover {
+  color: var(--color-secondary);
+}
+
+/* Hamburger Menu Button */
+#desktop-menu-button {
+  margin-right: 1rem; /* Space between button and logo */
+}
+
+/* --- Top Navbar Styling --- */
+
+/* Desktop Search Input */
+#desktop-search-input {
+  padding-left: 1rem; /* pl-4 */
+  padding-right: 2.5rem; /* pr-10 */
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem; /* py-2 */
+  border-radius: 9999px; /* rounded-full */
+  background-color: var(--color-bg-card-light); /* FORCED WHITE BACKGROUND */
+  color: var(--color-text-dark); /* FORCED BLACK TEXT */
+  border: 1px solid var(--color-border-light); /* Light border for consistent look */
+  transition: all 0.3s ease; /* focus:outline-none focus:ring-2 focus:ring-[#805539] transition-all duration-300 */
+}
+
+#desktop-search-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primary); /* Use primary color for focus ring */
+}
+
+/* For the search button inside the input */
+#desktop-search-button {
+  color: var(--color-text-muted); /* A darker grey for better visibility on white */
+}
+
+#desktop-search-button:hover {
+  color: var(--color-primary); /* Use primary color on hover for consistency */
+}
+
+/* Desktop Off-Canvas Navigation Overlay (Sidebar) */
+#desktop-nav-overlay {
+  position: fixed;
+  top: 0;
+  /* Changed from left: 0; */
+  right: 0;
+  height: 100%;
+  width: 280px; /* Fixed width for desktop sidebar */
+  background-color: var(--color-bg-dark); /* Dark background for sidebar */
+  box-shadow: -4px 0 15px var(--color-shadow); /* Shadow on the left edge now */
+  z-index: 40; /* Below navbar, above content/backdrop */
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  /* Changed from -translate-x-full */
+  transform: translateX(100%); /* Start off-screen to the right */
+  opacity: 0;
+  pointer-events: none; /* Click-through when hidden */
+}
+
+#desktop-nav-overlay.active {
+  transform: translateX(0); /* Slide in from the right */
+  opacity: 1;
+  pointer-events: auto; /* Enable clicks when active */
+}
+
+body.light-mode #desktop-nav-overlay {
+  background-color: var(--color-bg-card-light);
+  box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+}
+
+#desktop-nav-close-button {
+  color: var(--color-text-light);
+  transition: color 0.2s ease;
+}
+
+body.light-mode #desktop-nav-close-button {
+  color: var(--color-text-dark);
+}
+
+#desktop-nav-close-button:hover {
+  color: var(--color-primary);
+}
+
+#desktop-nav-overlay ul li a {
+  color: var(--color-text-light);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+body.light-mode #desktop-nav-overlay ul li a {
+  color: var(--color-text-dark);
+}
+
+#desktop-nav-overlay ul li a:hover {
+  color: var(--color-primary);
+  background-color: rgba(193, 209, 207, 0.2); /* Soft highlight on hover */
+}
+
+body.light-mode #desktop-search-input {
+  background-color: var(--color-bg-card-light); /* Ensure it stays white in light mode too */
+  color: var(--color-text-dark); /* Ensure it stays black in light mode too */
+  border-color: var(--color-border-light); /* Keep light border for light mode */
+}
+
+/* --- Backdrop Overlay --- */
+.overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+z-index: 30; /* Below modals and sidebar, above content */
+opacity: 0;
+transition: opacity 0.3s ease;
+pointer-events: none; /* Allows clicks to pass through when hidden */
+}
+
+.overlay.active {
+opacity: 1;
+pointer-events: auto; /* Enables clicks when active */
+}
+
+/* --- Hero Section --- */
+.hero-section {
+  position: relative;
+  background: url('https://via.placeholder.com/1500x800?text=Kitchen+Background') no-repeat center center/cover;
+  height: 80vh; /* Responsive height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 5rem; /* To clear fixed navbar */
+  color: var(--color-text-light);
+  padding-left: 8;
+  padding-right: 8;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.hero-product-display {
+  background-color: rgba(23, 31, 34, 0.1); /* Darker translucent background */
+  border: 1px solid rgba(116, 139, 145, 0.2); /* Muted border */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* For theme change */
+  padding: 2.5rem;
+}
+
+.hero-product-display img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.hero-text h1 {
+  color: var(--color-text-light);
+  font-size: 3rem;
+}
+
+.hero-text p {
+  color: var(--color-secondary);
+  font-size: 1.125rem;
+}
+
+.contact-btn,
+.quote-btn {
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  text-decoration: none;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.contact-btn:hover,
+.quote-btn:hover {
+  background-color: var(--color-btn-primary-hover);
+  transform: scale(1.05);
+}
+
+/* --- Filter Bar --- */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  background-color: var(--color-bg-card-dark);
+  border-bottom: 1px solid var(--color-border-dark);
+  box-shadow: 0 2px 4px var(--color-shadow);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 1rem;
+  contain: layout;
+  will-change: transform;
+  transform: rotateZ('0');
+}
+
+body.light-mode .filter-bar {
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.filter-bar button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  background-color: var(--color-bg-card-dark);
+  color: var(--color-text-light);
+  border: 1px solid var(--color-border-dark);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.filter-bar button:hover {
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  transform: translateY(-2px);
+}
+
+.filter-bar button.active {
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Product Grid --- */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem 1rem;
+  contain: layout;
+  will-change: transform;
+  transform: rotateZ('0');
+}
+
+.product-card {
+  background-color: var(--color-bg-card-dark);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px var(--color-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1.5rem;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 16px var(--color-shadow);
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.product-card h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-light);
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.product-card p {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  padding: 0 1.25rem;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.product-card p.price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1.25rem;
+}
+
+.product-card button.add-to-cart-btn {
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.product-card button.add-to-cart-btn:hover {
+  background-color: var(--color-btn-primary-hover);
+  transform: scale(1.05);
+}
+
+/* --- Projects Section --- */
+#projects {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 3rem 1rem;
+}
+
+#projects .section-title,
+#projects h3 {
+  color: var(--color-text-dark);
+}
+
+#projects p {
+  color: var(--color-text-muted);
+}
+
+#projects .bg-white {
+  background-color: var(--color-bg-card-light);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#projects .list-disc {
+  color: var(--color-text-dark);
+}
+
+/* --- Testimonials Section --- */
+#testimonials {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 3rem 1rem;
+}
+
+#testimonials .testimonial-card {
+  background-color: var(--color-bg-card-light);
+  color: var(--color-text-dark);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#testimonials .testimonial-card i.fa-quote-left {
+  color: var(--color-secondary);
+}
+
+#testimonials .testimonial-card p.italic {
+  color: var(--color-text-dark);
+}
+
+#testimonials .testimonial-card p.font-bold {
+  color: var(--color-text-dark);
+}
+
+#testimonials .testimonial-card p.text-sm {
+  color: var(--color-text-muted);
+}
+
+/* --- About Us Section --- */
+#about-us {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 3rem 1rem;
+}
+
+#about-us .section-title {
+  color: var(--color-text-light);
+}
+
+#about-us p,
+#about-us ul li {
+  color: var(--color-text-muted);
+}
+
+#about-us strong {
+  color: var(--color-primary);
+}
+
+#about-us .absolute p {
+  color: var(--color-text-light);
+}
+
+/* --- Contact Section --- */
+#contact {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 3rem 1rem;
+}
+
+#contact .section-title,
+#contact h3 {
+  color: var(--color-text-dark);
+}
+
+#contact p {
+  color: var(--color-text-muted);
+}
+
+#contact .bg-white {
+  background-color: var(--color-bg-card-light);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#contact label {
+  color: var(--color-text-dark);
+}
+
+#contact input,
+#contact textarea {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+  border: 1px solid var(--color-border-light);
+}
+
+#contact input:focus,
+#contact textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+#contact button[type="submit"] {
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+}
+
+#contact button[type="submit"]:hover {
+  background-color: var(--color-btn-primary-hover);
+}
+
+#contact .social-icons a {
+  color: var(--color-text-dark);
+}
+
+#contact .social-icons a:hover {
+  color: var(--color-primary);
+}
+
+.whatsapp-btn {
+  background-color: #25D366;
+  color: white;
+}
+
+.whatsapp-btn:hover {
+  background-color: #1DA851;
+}
+
+/* --- Modal Styles --- */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.modal-show {
+  display: flex; !important;
+}
+
+.modal-content {
+  background-color: var(--color-bg-card-dark);
+  margin: auto;
+  padding: 2.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 5px 15px var(--color-shadow);
+  position: relative;
+  max-width: 500px;
+  width: 90%;
+  color: var(--color-text-light);
+  text-align: center;
+}
+
+body.light-mode .modal-content {
+  background-color: var(--color-bg-card-light);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: var(--color-text-light);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+body.light-mode .modal-content h2 {
+  color: var(--color-text-dark);
+}
+
+.modal-content p {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.modal-content label {
+  font-weight: 500;
+  color: var(--color-text-light);
+}
+
+body.light-mode .modal-content label {
+  color: var(--color-text-dark);
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="tel"],
+.modal-content textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border-dark);
+  border-radius: 0.5rem;
+  background-color: var(--color-bg-card-dark);
+  color: var(--color-text-light);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+body.light-mode .modal-content input,
+body.light-mode .modal-content textarea {
+  background-color: var(--color-bg-light);
+  border-color: var(--color-border-light);
+  color: var(--color-text-dark);
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(116, 139, 145, 0.5);
+}
+
+.modal-content button[type="submit"] {
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.modal-content button[type="submit"]:hover {
+  background-color: var(--color-btn-primary-hover);
+}
+
+.modal .close {
+  color: var(--color-text-light);
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+body.light-mode .modal .close {
+  color: var(--color-text-dark);
+}
+
+.modal .close:hover,
+.modal .close:focus {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+/* --- Cart Modal Specific Styles (NEW) --- */
+
+/* Close button for cart modal */
+.close-cart-modal {
+  color: var(--color-text-light); /* Inherits from general modal close */
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+body.light-mode .close-cart-modal {
+  color: var(--color-text-dark);
+}
+
+.close-cart-modal:hover,
+.close-cart-modal:focus {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+/* Container for individual cart items */
+
+#cart-items-container {
+  border-bottom: 1px solid var(--color-border-dark); /* Separator from total */
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  max-height: 250px; /* Limit height and enable scrolling for many items */
+  overflow-y: auto;
+  text-align: left; /* Align text within the list */
+}
+
+body.light-mode #cart-items-container {
+  border-color: var(--color-border-light);
+}
+
+/* Styling for each individual cart item (will be dynamically generated) */
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1); /* Subtle separator */
+  color: var(--color-text-light);
+}
+
+body.light-mode .cart-item {
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+  color: var(--color-text-dark);
+}
+
+.cart-item:last-child {
+  border-bottom: none; /* No border for the last item */
+}
+
+.cart-item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.cart-item-details {
+  flex-grow: 1;
+}
+
+.cart-item-details h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--color-text-light);
+}
+
+body.light-mode .cart-item-details h3 {
+  color: var(--color-text-dark);
+}
+
+.cart-item-details p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}
+
+.cart-item-price {
+  font-weight: 700;
+  color: var(--color-primary);
+  flex-shrink: 0; /* Prevent price from shrinking */
+}
+
+/* Empty cart message */
+#empty-cart-message {
+  padding: 1rem;
+  color: var(--color-text-muted);
+}
+
+/* Total price display */
+#cart-total-price {
+  color: var(--color-primary); /* Use primary color for emphasis */
+}
+
+/* Request Quote button within cart modal */
+#request-quote-from-cart-btn {
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem; /* Adjust margin as needed */
+}
+
+#request-quote-from-cart-btn:hover {
+  background-color: var(--color-btn-primary-hover);
+}
+
+#confirmation-message {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-top: 1.5rem;
+  display: none;
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Catálogo - La casa de las campanas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="dark-mode flex flex-col min-h-screen">
+
+    <nav id="main-navbar" class="fixed top-0 left-0 w-full p-4 flex items-center justify-between z-50 shadow-md">
+        <div class="logo">
+            <a href="{{ url_for('index') }}" class="text-xl font-bold text-[#805539] hover:text-[#B9987C] transition-colors duration-300">La casa de las campanas</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="{{ url_for('view_items') }}" class="text-gray-300 hover:text-white transition-colors duration-300 text-sm font-medium">
+                <i class="fas fa-database mr-1"></i> Ver base de datos
+            </a>
+            <a href="{{ url_for('index') }}" class="text-gray-300 hover:text-white transition-colors duration-300 text-sm font-medium">
+                <i class="fas fa-arrow-left mr-1"></i> Volver al sitio
+            </a>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center pt-24 px-4">
+        <div class="w-full max-w-lg">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#805539] bg-opacity-20 mb-4">
+                    <i class="fas fa-file-pdf text-3xl text-[#805539]"></i>
+                </div>
+                <h1 class="text-3xl font-bold">Subir Catálogo PDF</h1>
+                <p class="text-[#5B5049] mt-2">Extrae imágenes y descripciones automáticamente del catálogo.</p>
+            </div>
+
+            <div class="bg-[#5B5049] rounded-xl p-8 shadow-lg">
+                <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" class="space-y-6">
+                    <div>
+                        <label for="folder_name" class="block text-sm font-semibold mb-2">Nombre del catálogo</label>
+                        <input type="text" id="folder_name" name="folder_name" placeholder="ej. Oldach_2025"
+                               class="w-full p-3 rounded-md bg-[#3C2C1E] border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#805539] text-white placeholder-gray-500">
+                        <p class="text-xs text-[#5B5049] mt-1">Deja en blanco para usar el nombre del archivo.</p>
+                    </div>
+
+                    <div>
+                        <label for="pdf_file" class="block text-sm font-semibold mb-2">Archivo PDF</label>
+                        <div class="border-2 border-dashed border-gray-600 rounded-md p-6 text-center hover:border-[#805539] transition-colors duration-300 cursor-pointer" id="drop-zone">
+                            <i class="fas fa-cloud-upload-alt text-3xl text-[#5B5049] mb-2"></i>
+                            <p class="text-[#5B5049] text-sm mb-2">Arrastra tu PDF aquí o</p>
+                            <label for="pdf_file" class="cursor-pointer inline-block bg-[#805539] text-white py-2 px-4 rounded-md hover:bg-[#5B5049] transition-colors duration-300 text-sm font-semibold">
+                                Seleccionar archivo
+                            </label>
+                            <input type="file" id="pdf_file" name="pdf_file" accept=".pdf" required class="hidden" onchange="showFileName(this)">
+                            <p id="file-name" class="text-[#B9987C] text-sm mt-2 hidden"></p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-[#805539] text-white py-3 px-6 rounded-md hover:bg-[#5B5049] transition-colors duration-300 font-semibold flex items-center justify-center gap-2">
+                        <i class="fas fa-cog"></i> Extraer productos
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showFileName(input) {
+            const label = document.getElementById('file-name');
+            if (input.files && input.files[0]) {
+                label.textContent = input.files[0].name;
+                label.classList.remove('hidden');
+            }
+        }
+
+        const dropZone = document.getElementById('drop-zone');
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-[#805539]');
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-[#805539]');
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('pdf_file');
+            fileInput.files = e.dataTransfer.files;
+            showFileName(fileInput);
+        });
+    </script>
+</body>
+</html>

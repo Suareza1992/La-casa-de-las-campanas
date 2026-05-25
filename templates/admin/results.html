@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisar Productos Extraídos - La casa de las campanas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .result-card textarea {
+            background-color: #3C2C1E;
+            color: #DDDDD8;
+            border: 1px solid #5B5049;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            width: 100%;
+            resize: vertical;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        .result-card input[type="text"] {
+            background-color: #3C2C1E;
+            color: #DDDDD8;
+            border: 1px solid #5B5049;
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            width: 100%;
+            font-size: 0.875rem;
+        }
+        .result-card select {
+            background-color: #3C2C1E;
+            color: #DDDDD8;
+            border: 1px solid #5B5049;
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            width: 100%;
+            font-size: 0.875rem;
+        }
+        .result-card input:focus, .result-card textarea:focus, .result-card select:focus {
+            outline: none;
+            border-color: #805539;
+            box-shadow: 0 0 0 2px rgba(116,139,145,0.3);
+        }
+        body.light-mode .result-card textarea,
+        body.light-mode .result-card input[type="text"],
+        body.light-mode .result-card select {
+            background-color: #DDDDD8;
+            color: #3C2C1E;
+            border-color: #B9987C;
+        }
+    </style>
+</head>
+<body class="dark-mode flex flex-col min-h-screen">
+
+    <nav id="main-navbar" class="fixed top-0 left-0 w-full p-4 flex items-center justify-between z-50 shadow-md">
+        <div class="logo">
+            <a href="{{ url_for('index') }}" class="text-xl font-bold text-[#805539] hover:text-[#B9987C] transition-colors duration-300">La casa de las campanas</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <span class="text-[#5B5049] text-sm">Catálogo: <span class="text-[#B9987C] font-medium">{{ folder }}</span></span>
+            <a href="{{ url_for('view_items') }}" class="text-gray-300 hover:text-white text-sm font-medium transition-colors duration-300">
+                <i class="fas fa-database mr-1"></i> Base de datos
+            </a>
+            <a href="{{ url_for('index') }}" class="text-gray-300 hover:text-white text-sm font-medium transition-colors duration-300">
+                <i class="fas fa-arrow-left mr-1"></i> Sitio
+            </a>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-24 px-4 lg:px-8 max-w-7xl mx-auto w-full pb-12">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold">Revisar productos extraídos</h1>
+                <p class="text-[#5B5049] mt-1">{{ items|length }} imagen(es) extraída(s). Edita nombre, precio, categoría y descripción antes de guardar.</p>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="saveChanges()" class="bg-[#805539] text-white py-2 px-6 rounded-md hover:bg-[#5B5049] transition-colors duration-300 font-semibold flex items-center gap-2">
+                    <i class="fas fa-save"></i> Guardar todo
+                </button>
+                <button onclick="downloadJSON()" class="border border-[#805539] text-[#805539] py-2 px-4 rounded-md hover:bg-[#805539] hover:text-white transition-colors duration-300 font-semibold flex items-center gap-2">
+                    <i class="fas fa-download"></i> JSON
+                </button>
+            </div>
+        </div>
+
+        <div id="save-status" class="hidden mb-6 p-4 bg-green-900 bg-opacity-50 border border-green-500 text-green-300 rounded-md flex items-center gap-2">
+            <i class="fas fa-check-circle"></i>
+            <span id="save-status-text"></span>
+        </div>
+
+        <form id="export-form">
+            <input type="hidden" name="folder" value="{{ folder }}">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {% for item in items %}
+                <div class="result-card bg-[#5B5049] rounded-xl overflow-hidden shadow-lg">
+                    <img src="{{ url_for('static', filename='output/' + item.image) }}"
+                         alt="Imagen {{ item.id }}"
+                         class="w-full h-48 object-cover"
+                         onerror="this.src='https://placehold.co/400x200/cccccc/333333?text=Imagen+no+disponible'">
+                    <div class="p-4 space-y-3">
+                        <div>
+                            <label class="block text-xs text-[#5B5049] font-semibold mb-1">Nombre del producto</label>
+                            <input type="text" name="name_{{ item.id }}" placeholder="ej. Nevera Industrial 600L">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs text-[#5B5049] font-semibold mb-1">Precio ($)</label>
+                                <input type="text" name="price_{{ item.id }}" placeholder="ej. 3,800.00">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-[#5B5049] font-semibold mb-1">Categoría</label>
+                                <select name="category_{{ item.id }}">
+                                    <option value="otros">Otros</option>
+                                    <option value="hornos">Hornos</option>
+                                    <option value="neveras">Neveras</option>
+                                    <option value="estufas">Estufas</option>
+                                    <option value="mesas de preparación">Mesas de preparación</option>
+                                    <option value="lavado de platos">Lavado de platos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-[#5B5049] font-semibold mb-1">Descripción</label>
+                            <textarea name="caption_{{ item.id }}" rows="3">{{ item.caption }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </form>
+    </main>
+
+    <script>
+        function saveChanges() {
+            const form = document.getElementById("export-form");
+            const formData = new FormData(form);
+
+            fetch("/save_captions", { method: "POST", body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    const status = document.getElementById('save-status');
+                    document.getElementById('save-status-text').textContent = data.message || "Guardado.";
+                    status.classList.remove('hidden');
+                    setTimeout(() => status.classList.add('hidden'), 4000);
+                })
+                .catch(err => {
+                    alert("Error al guardar. Por favor intente de nuevo.");
+                    console.error(err);
+                });
+        }
+
+        function downloadJSON() {
+            const captions = {};
+            document.querySelectorAll('textarea').forEach((textarea) => {
+                const id = textarea.name.split('_')[1];
+                captions[`Image${id}.png`] = textarea.value.trim();
+            });
+            const blob = new Blob([JSON.stringify(captions, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'captions.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
