@@ -25,14 +25,26 @@
                 </button>
             </div>
 
-            <a href="#" class="cart-link text-2xl text-gray-300 hover:text-green-500 transition-colors duration-300 relative">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-badge absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full hidden"></span>
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('catalog') }}" class="hidden lg:inline-flex items-center gap-1 text-sm font-medium text-[#B9987C] hover:text-white transition-colors duration-200">
+                <i class="fas fa-th-large"></i> Catálogo
             </a>
-
-            <a href="#" class="text-2xl text-gray-300 hover:text-blue-500 transition-colors duration-300">
-                <i class="fas fa-user-circle"></i>
+            {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('admin_dashboard') }}" class="hidden lg:inline-flex items-center gap-1 text-sm font-medium text-[#B9987C] hover:text-white transition-colors duration-200">
+                <i class="fas fa-cog"></i> Admin
             </a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}" class="hidden lg:inline-flex items-center gap-1 text-sm font-medium text-gray-400 hover:text-red-400 transition-colors duration-200">
+                <i class="fas fa-sign-out-alt"></i> Salir
+            </a>
+            {% else %}
+            <a href="{{ url_for('login') }}" class="hidden lg:inline-flex items-center gap-1 text-sm font-medium text-[#B9987C] hover:text-white transition-colors duration-200">
+                <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+            </a>
+            <a href="{{ url_for('register') }}" class="hidden lg:inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-[#805539] text-white text-sm font-semibold hover:bg-[#5B5049] transition-colors duration-200">
+                Registrarse
+            </a>
+            {% endif %}
 
             <button id="desktop-menu-button" class="text-gray-300 hover:text-white transition-colors duration-300 text-2xl focus:outline-none ml-4">
                 <i class="fas fa-bars"></i>
@@ -53,7 +65,17 @@
                 <li><a href="#about-us" class="block text-gray-300 hover:text-[#B9987C] text-xl font-medium transition-colors duration-300 py-2 px-4 rounded-md"><i class="fas fa-info-circle mr-3"></i> Sobre nosotros</a></li>
                 <li><a href="#contact" class="block text-gray-300 hover:text-[#B9987C] text-xl font-medium transition-colors duration-300 py-2 px-4 rounded-md"><i class="fas fa-envelope mr-3"></i> ¡Contáctanos!</a></li>
                 <li><a href="{{ url_for('legales') }}" class="block text-gray-300 hover:text-[#B9987C] text-xl font-medium transition-colors duration-300 py-2 px-4 rounded-md"><i class="fas fa-gavel mr-3"></i> Legales</a></li>
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('catalog') }}" class="block text-gray-300 hover:text-[#B9987C] text-xl font-medium transition-colors duration-300 py-2 px-4 rounded-md"><i class="fas fa-th-large mr-3"></i> Catálogo</a></li>
+                {% if current_user.role == 'admin' %}
                 <li><a href="{{ url_for('upload') }}" class="block text-gray-300 hover:text-[#B9987C] text-xl font-medium transition-colors duration-300 py-2 px-4 rounded-md"><i class="fas fa-file-pdf mr-3"></i> Subir Catálogo</a></li>
+                <li><a href="{{ url_for('admin_dashboard') }}" class="block text-gray-300 hover:text-[#B9987C] text-xl font-medium transition-colors duration-300 py-2 px-4 rounded-md"><i class="fas fa-cog mr-3"></i> Dashboard Admin</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('logout') }}" class="block text-red-400 hover:text-red-300 text-xl font-medium transition-colors duration-300 py-2 px-4 rounded-md"><i class="fas fa-sign-out-alt mr-3"></i> Cerrar sesión</a></li>
+                {% else %}
+                <li><a href="{{ url_for('login') }}" class="block text-gray-300 hover:text-[#B9987C] text-xl font-medium transition-colors duration-300 py-2 px-4 rounded-md"><i class="fas fa-sign-in-alt mr-3"></i> Iniciar sesión</a></li>
+                <li><a href="{{ url_for('register') }}" class="block text-gray-300 hover:text-[#B9987C] text-xl font-medium transition-colors duration-300 py-2 px-4 rounded-md"><i class="fas fa-user-plus mr-3"></i> Registrarse</a></li>
+                {% endif %}
             </ul>
 
             <div class="mode-toggle-section mt-auto p-4 flex justify-center">

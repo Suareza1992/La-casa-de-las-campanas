@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cuenta — La casa de las campanas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="dark-mode flex items-center justify-center min-h-screen px-4">
+
+    <div class="w-full max-w-md">
+        <div class="text-center mb-8">
+            <a href="{{ url_for('index') }}" class="text-2xl font-bold text-[#805539] hover:text-[#B9987C] transition-colors duration-300">
+                La casa de las campanas
+            </a>
+            <p class="text-[#5B5049] mt-2 text-sm">Crea tu cuenta de cliente</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="mb-4 p-3 bg-red-900 bg-opacity-40 border border-red-500 text-red-300 rounded-lg text-sm">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="auth-card">
+            <form method="POST" action="{{ url_for('register') }}" class="space-y-5">
+                <div>
+                    <label class="auth-label">Nombre</label>
+                    <input type="text" name="username" required autocomplete="name"
+                           class="auth-input" placeholder="Tu nombre o empresa">
+                </div>
+                <div>
+                    <label class="auth-label">Email</label>
+                    <input type="email" name="email" required autocomplete="email"
+                           class="auth-input" placeholder="tu@email.com">
+                </div>
+                <div>
+                    <label class="auth-label">Contraseña</label>
+                    <input type="password" name="password" required minlength="6"
+                           class="auth-input" placeholder="Mínimo 6 caracteres">
+                </div>
+                <button type="submit" class="auth-btn">Crear cuenta</button>
+            </form>
+
+            <p class="text-center text-sm text-[#5B5049] mt-6">
+                ¿Ya tienes cuenta?
+                <a href="{{ url_for('login') }}" class="text-[#805539] hover:text-[#B9987C] font-semibold transition-colors duration-200">
+                    Inicia sesión
+                </a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

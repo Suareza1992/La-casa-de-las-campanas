@@ -1119,3 +1119,348 @@ body.light-mode .cart-item-details h3 {
   margin-top: 1.5rem;
   display: none;
 }
+
+/* ── Auth Forms ─────────────────────────────────────────────────────────────── */
+
+.dark-mode {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+}
+
+.auth-card {
+  background-color: var(--color-bg-card-dark);
+  border: 1px solid var(--color-border-dark);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.auth-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  margin-bottom: 0.4rem;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border-dark);
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.auth-input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(128, 85, 57, 0.35);
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.auth-btn:hover {
+  background-color: var(--color-tertiary);
+  transform: translateY(-1px);
+}
+
+/* ── Bento Grid (Client Catalog) ─────────────────────────────────────────── */
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1.25rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .bento-grid { grid-template-columns: repeat(2, 1fr); }
+  .bento-featured { grid-column: span 2 !important; }
+}
+
+@media (max-width: 560px) {
+  .bento-grid { grid-template-columns: 1fr; }
+  .bento-featured { grid-column: span 1 !important; }
+}
+
+.bento-item {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: var(--color-bg-card-dark);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.bento-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+/* Every 3rd item is wide (spans full 3 cols on desktop) */
+.bento-featured {
+  grid-column: span 3;
+  min-height: 340px;
+}
+
+.bento-small {
+  min-height: 260px;
+}
+
+.bento-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.bento-featured img {
+  max-height: 340px;
+}
+
+.bento-small img {
+  max-height: 260px;
+}
+
+.bento-item:hover img {
+  transform: scale(1.04);
+}
+
+/* Overlay slides up from bottom on hover */
+.bento-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(60, 44, 30, 0.92) 0%, transparent 55%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.1rem 1.1rem 1rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.bento-item:hover .bento-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bento-cat-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+  width: fit-content;
+}
+
+.bento-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  margin-bottom: 0.2rem;
+}
+
+.bento-featured .bento-title {
+  font-size: 1.25rem;
+}
+
+.bento-price {
+  font-size: 0.85rem;
+  color: var(--color-secondary);
+  font-weight: 600;
+  margin-bottom: 0.55rem;
+}
+
+.bento-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  width: fit-content;
+}
+
+.bento-add-btn:hover {
+  background-color: var(--color-tertiary);
+  transform: scale(1.05);
+}
+
+/* ── Catalog filter / count buttons ─────────────────────────────────────── */
+
+.cat-btn, .count-btn {
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border-dark);
+  background-color: var(--color-bg-card-dark);
+  color: var(--color-text-light);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.cat-btn:hover, .count-btn:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.cat-btn.active, .count-btn.active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(128, 85, 57, 0.4);
+}
+
+/* ── Admin Dashboard ─────────────────────────────────────────────────────── */
+
+.admin-sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background-color: var(--color-bg-card-dark);
+  border-right: 1px solid var(--color-border-dark);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+  flex-shrink: 0;
+}
+
+.admin-sidebar .brand {
+  padding: 0 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-border-dark);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.admin-sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.admin-sidebar nav a:hover,
+.admin-sidebar nav a.active {
+  background-color: rgba(128, 85, 57, 0.18);
+  color: var(--color-secondary);
+  border-left-color: var(--color-primary);
+}
+
+.admin-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.stat-card {
+  background-color: var(--color-bg-card-dark);
+  border: 1px solid var(--color-border-dark);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat-card .stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.stat-card .stat-label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.admin-table thead th {
+  text-align: left;
+  padding: 0.65rem 1rem;
+  background-color: rgba(128, 85, 57, 0.15);
+  color: var(--color-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border-dark);
+}
+
+.admin-table tbody tr {
+  border-bottom: 1px solid rgba(91, 80, 73, 0.3);
+  transition: background-color 0.15s ease;
+}
+
+.admin-table tbody tr:hover {
+  background-color: rgba(128, 85, 57, 0.08);
+}
+
+.admin-table tbody td {
+  padding: 0.65rem 1rem;
+  color: var(--color-text-light);
+  vertical-align: middle;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.status-pending   { background: rgba(245,158,11,0.2); color: #F59E0B; }
+.status-quoted    { background: rgba(59,130,246,0.2);  color: #60A5FA; }
+.status-confirmed { background: rgba(16,185,129,0.2);  color: #34D399; }
+.status-cancelled { background: rgba(239,68,68,0.2);   color: #F87171; }

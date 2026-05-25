@@ -4,3 +4,6 @@ Jinja2==3.1.6
 PyMuPDF==1.25.5
 Pillow==11.2.1
 SQLAlchemy==2.0.41
+Flask-Login==0.6.3
+Flask-Mail==0.10.0
+python-dotenv==1.0.1
